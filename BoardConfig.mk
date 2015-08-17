@@ -101,6 +101,9 @@ USE_DEVICE_SPECIFIC_CAMERA := true
 # malloc implementation
 MALLOC_IMPL := dlmalloc
 
+# Disable Jack & Jill compilation
+ANDROID_COMPILE_WITH_JACK := false
+
 # Crypto
 TARGET_HW_DISK_ENCRYPTION := true
 
