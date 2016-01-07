@@ -26,10 +26,7 @@
 #
 
 on boot
-    # change file owner for factory test
-    chown system system /sys/devices/virtual/touchscreen/touchscreen_dev/firmware_version
-    chown system system /sys/devices/virtual/touchscreen/touchscreen_dev/firmware_update
-    chown system system /sys/devices/virtual/touchscreen/touchscreen_dev/calibrate
+# sensors hal
 
     chown system system /sys/class/sensors/MPU6050-accel/enable
     chmod 0660 /sys/class/sensors/MPU6050-accel/enable
