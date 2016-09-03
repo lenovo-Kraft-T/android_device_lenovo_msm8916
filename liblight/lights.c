@@ -19,7 +19,7 @@
 #define LOG_TAG "lights"
 
 #include <cutils/log.h>
-
+#include <cutils/properties.h>
 #include <stdlib.h>
 #include <stdint.h>
 #include <string.h>
@@ -28,6 +28,7 @@
 #include <fcntl.h>
 #include <pthread.h>
 
+#include <sys/ioctl.h>
 #include <sys/types.h>
 
 #include <hardware/lights.h>
@@ -37,7 +38,7 @@
 static pthread_once_t g_init = PTHREAD_ONCE_INIT;
 static pthread_mutex_t g_lock = PTHREAD_MUTEX_INITIALIZER;
 
-const char *const LCD_FILE
+char const*const LCD_FILE
         = "/sys/class/leds/lcd-backlight/brightness";
 
 /**
@@ -80,25 +81,23 @@ write_int(const char *path, int value)
 }
 
 static int
-rgb_to_brightness(const struct light_state_t *state)
+rgb_to_brightness(struct light_state_t const* state)
 {
     int color = state->color & 0x00ffffff;
     return ((77 * ((color >> 16) & 0xff))
-            + (150 * ((color >> 8) & 0xff))
+            + (150*((color >> 8) & 0xff))
             + (29 * (color & 0xff))) >> 8;
 }
 
 static int
-set_light_backlight(__attribute__ ((unused)) struct light_device_t *dev,
-        const struct light_state_t *state)
+set_light_backlight(__attribute__ ((unused)) struct light_device_t* dev,
+        struct light_state_t const* state)
 {
     int err = 0;
     int brightness = rgb_to_brightness(state);
 
     pthread_mutex_lock(&g_lock);
-
     err = write_int(LCD_FILE, brightness);
-
     pthread_mutex_unlock(&g_lock);
 
     return err;
@@ -114,18 +113,16 @@ close_lights(struct light_device_t *dev)
     return 0;
 }
 
-/******************************************************************************/
-
 /**
  * module methods
  */
 
 /** Open a new instance of a lights device using name */
-static int open_lights(const struct hw_module_t *module, const char *name,
-        struct hw_device_t **device)
+static int open_lights(const struct hw_module_t* module, char const* name,
+        struct hw_device_t** device)
 {
-    int (*set_light)(struct light_device_t *dev,
-            const struct light_state_t *state);
+    int (*set_light)(struct light_device_t* dev,
+            struct light_state_t const* state);
 
     if (0 == strcmp(LIGHT_ID_BACKLIGHT, name))
         set_light = set_light_backlight;
@@ -160,6 +157,6 @@ struct hw_module_t HAL_MODULE_INFO_SYM = {
     .version_minor = 0,
     .id = LIGHTS_HARDWARE_MODULE_ID,
     .name = "Lenovo Lights Module",
-    .author = "The panyoujie Project",
+    .author = "Google, Inc., AOKP, CyanogenMod",
     .methods = &lights_module_methods,
 };
