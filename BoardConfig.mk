@@ -174,22 +174,6 @@ include device/qcom/sepolicy/sepolicy.mk
 
 BOARD_SEPOLICY_DIRS += device/lenovo/msm8916/sepolicy
 
-BOARD_SEPOLICY_UNION += \
-    debuggerd.te \
-    healthd.te \
-    init.te \
-    kernel.te \
-    keystore.te \
-    mediaserver.te \
-    mm-qcamerad.te \
-    qti_init_shell.te \
-    servicemanager.te \
-    sysinit.te \
-    system_server.te \
-    tee.te \
-    ueventd.te \
-    untrusted_app.te
-
 # QC PROPRIETARY
 ifneq ($(QCPATH),)
 BOARD_USES_QCNE := true
