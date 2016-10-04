@@ -145,8 +145,8 @@ BOARD_CACHEIMAGE_FILE_SYSTEM_TYPE := ext4
 BOARD_CACHEIMAGE_PARTITION_SIZE := 67108864
 BOARD_PERSISTIMAGE_PARTITION_SIZE := 33554432
 BOARD_RECOVERYIMAGE_PARTITION_SIZE := 33554432
-BOARD_SYSTEMIMAGE_PARTITION_SIZE := 2147483648
-BOARD_USERDATAIMAGE_PARTITION_SIZE := 13042155008
+BOARD_SYSTEMIMAGE_PARTITION_SIZE := 1887436800
+BOARD_USERDATAIMAGE_PARTITION_SIZE := 5132779520
 
 # Power
 TARGET_POWERHAL_VARIANT := qcom
@@ -173,22 +173,6 @@ PROTOBUF_SUPPORTED := true
 include device/qcom/sepolicy/sepolicy.mk
 
 BOARD_SEPOLICY_DIRS += device/lenovo/msm8916/sepolicy
-
-BOARD_SEPOLICY_UNION += \
-    debuggerd.te \
-    healthd.te \
-    init.te \
-    kernel.te \
-    keystore.te \
-    mediaserver.te \
-    mm-qcamerad.te \
-    qti_init_shell.te \
-    servicemanager.te \
-    sysinit.te \
-    system_server.te \
-    tee.te \
-    ueventd.te \
-    untrusted_app.te
 
 # QC PROPRIETARY
 ifneq ($(QCPATH),)
